@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Billard-Date für Josi</title>
+<meta property="og:title" content="Billard Date">
+<meta property="og:description" content="Für Josi">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Figtree:wght@400;600&family=Paytone+One&display=swap">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<style>
+/* Layout: one narrow column for a phone. Headline, then the practice table with a dog watching over the top rail. */
+:root {
+  --bg: #FBEEF0;          /* strawberry milk */
+  --ink: #2B1A14;         /* dark chocolate */
+  --ink-soft: #6E544A;
+  --berry: #D12F4A;       /* strawberry */
+  --felt: #1F7A57;
+  --felt-deep: #17604A;
+  --rail: #4A2C20;
+  --pocket: #140C09;
+  --chalk: #F4E9DC;
+  --chalk-blue: #3F7FBF;  /* cue tip chalk */
+  --wood: #D9B27C;
+  --ball: #FFFDF8;
+  --shade: rgba(20, 8, 4, 0.30);
+  --font-display: "Paytone One", "Arial Black", "Helvetica Neue", sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1210; --ink: #F7E9E4; --ink-soft: #C2A59B;
+    --berry: #F0627A; --felt: #1E7052; --felt-deep: #165540; --rail: #5A372A; --pocket: #0A0605;
+    --chalk: #EAD9C8; --chalk-blue: #5B9BD8; --wood: #D0A46C; --ball: #FFFBF3; --shade: rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1210; --ink: #F7E9E4; --ink-soft: #C2A59B;
+  --berry: #F0627A; --felt: #1E7052; --felt-deep: #165540; --rail: #5A372A; --pocket: #0A0605;
+  --chalk: #EAD9C8; --chalk-blue: #5B9BD8; --wood: #D0A46C; --ball: #FFFBF3; --shade: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 30rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  padding-block: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+p, h1, h2 { margin: 0; }
+
+.intro { display: flex; flex-direction: column; gap: 0.6rem; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 12vw, 3.5rem);
+  line-height: 0.98;
+  color: var(--berry);
+  text-wrap: balance;
+}
+
+.practice { display: flex; flex-direction: column; gap: 0.9rem; }
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* the dog sits behind the top rail; its paws rest on it */
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 23rem;
+  margin-inline: auto;
+  padding-top: 3.56rem;
+}
+.dog-btn {
+  position: absolute;
+  top: 0;
+  right: 3.4rem;
+  width: 5.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 0;
+  overflow: visible;
+  z-index: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.dog-btn:focus-visible { outline: 3px solid var(--berry); outline-offset: 4px; border-radius: 12px; }
+.dog {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.treats {
+  position: absolute;
+  top: 1.1rem;
+  right: 9.5rem;
+  max-width: 11rem;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+.pop {
+  position: absolute;
+  top: 0;
+  right: 7.6rem;
+  z-index: 2;
+  font-size: 1.1rem;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+.dog .fur { fill: var(--wood); }
+.dog .ear { fill: var(--rail); }
+.dog .snout { fill: var(--chalk); }
+.dog .dark { fill: var(--pocket); }
+.dog .mouth { fill: none; stroke: var(--pocket); stroke-width: 1.3; stroke-linecap: round; }
+.dog .tail {
+  fill: none;
+  stroke: var(--wood);
+  stroke-width: 9;
+  stroke-linecap: round;
+  transform-box: view-box;
+  transform-origin: 86px 70px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dog.wag .tail { animation: wag 0.2s ease-in-out 6 alternate; }
+  .dog.wag-long .tail { animation: wag 0.2s ease-in-out 18 alternate; }
+  .pop.go { animation: treat 0.7s ease-out; }
+}
+@keyframes wag {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(18deg); }
+}
+@keyframes treat {
+  0% { opacity: 0; transform: translateY(-16px); }
+  35% { opacity: 1; transform: translateY(6px); }
+  100% { opacity: 0; transform: translateY(14px) scale(0.6); }
+}
+
+#table {
+  display: block;
+  width: 100%;
+  aspect-ratio: 360 / 580;
+  border-radius: 18px;
+  box-shadow: 0 22px 34px -24px var(--shade);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+#table:focus-visible { outline: 3px solid var(--berry); outline-offset: 4px; }
+#status { min-height: 3em; font-weight: 600; }
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+#count {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+#reset, #bonus {
+  font: inherit;
+  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.15rem;
+  cursor: pointer;
+}
+#bonus { background: var(--berry); }
+#reset:focus-visible, #bonus:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Für Josi</p>
+    <h1>Billard Date</h1>
+  </header>
+
+  <section class="practice">
+    <h2>Hier kannst du schon mal üben</h2>
+    <p>Was du als Letztes versenkst, gibt's beim ersten Date.</p>
+    <div class="stage">
+      <span class="treats" id="treats">Er mag Leckerlis. Tipp ihn an.</span>
+      <span class="pop" id="pop" aria-hidden="true">&#x1F9B4;</span>
+      <button type="button" class="dog-btn" id="dogBtn" aria-label="Dem Hund ein Leckerli geben">
+      <svg class="dog" id="dog" viewBox="0 0 110 70" aria-hidden="true">
+        <path class="tail" d="M86 70 Q101 52 96 30"/>
+        <path class="fur" d="M26 70 Q26 38 58 38 Q92 38 92 70 Z"/>
+        <ellipse class="ear" cx="21" cy="29" rx="7" ry="13" transform="rotate(14 21 29)"/>
+        <ellipse class="ear" cx="59" cy="26" rx="7" ry="13" transform="rotate(-16 59 26)"/>
+        <circle class="fur" cx="40" cy="30" r="20"/>
+        <circle class="dark" cx="33" cy="26" r="2.4"/>
+        <circle class="dark" cx="47" cy="26" r="2.4"/>
+        <ellipse class="snout" cx="40" cy="37" rx="9.5" ry="7"/>
+        <ellipse class="dark" cx="40" cy="33.5" rx="3.3" ry="2.5"/>
+        <path class="mouth" d="M40 36 q-3 4.5 -6 2.5 M40 36 q3 4.5 6 2.5"/>
+        <ellipse class="fur" cx="33" cy="72" rx="8" ry="5"/>
+        <ellipse class="fur" cx="56" cy="72" rx="8" ry="5"/>
+      </svg>
+      </button>
+      <canvas id="table" tabindex="0" role="application" aria-label="Billardtisch zum Üben. Ziehen zum Zielen, loslassen zum Stoßen.">Der Übungstisch braucht einen Browser mit Canvas.</canvas>
+    </div>
+    <p id="status" aria-live="polite"></p>
+    <div class="bar">
+      <span id="count"></span>
+      <span class="actions">
+        <button id="bonus" type="button" hidden>Bonusrunde</button>
+        <button id="reset" type="button">Neu aufbauen</button>
+      </span>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var W = 320, H = 540, RAIL = 20, CW = W + 2 * RAIL, CH = H + 2 * RAIL;
+  var R = 13, MAXV = 8, FRICTION = 0.996, MIN_SHOT = 0.6;
+  var AVOCADO = 4;
+
+  var KINDS = [
+    { e: "🍓", date: "Schoko-Erdbeeren", msg: "Schoko-Erdbeere versenkt. Der Hund ist begeistert." },
+    { e: "🍟", date: "Curly Fries", msg: "Curly Fries weg. Guter Geschmack." },
+    { e: "🍰", date: "Tiramisu", msg: "Tiramisu. Das cravest du doch eh." },
+    { e: "☕", date: "Kakao", msg: "Kakao gesichert." },
+    { e: "🥑", date: "Avocado", msg: "Avocado entsorgt. Gern geschehen." },
+    { e: "🥣", date: "Müsli", msg: "Müsli um Mitternacht. Typisch." },
+    /* bonus round only: these two cannot be potted, they hop back onto the table */
+    { e: "🐴", animal: true, msg: "Bella lässt sich nicht einlochen. Sie steht schon wieder da." },
+    { e: "🐕", animal: true, msg: "Ein Ridgeback im Loch? Niemals. Er ist schon zurück." }
+  ];
+  var BONUS_START = "Bonusrunde. Bella und ein Ridgeback sind mit auf dem Tisch. Viel Glück.";
+  var MISSES = [
+    "Nichts gefallen. Nochmal.",
+    "Knapp. Der Tisch ist schuld.",
+    "Das war die Aufwärmrunde."
+  ];
+  var START_MSG = "Sechs Kugeln, eine davon ist eine Avocado. Du weißt, was zu tun ist.";
+  var SCRATCH_MSG = "Die Weiße ist mit rein. Passiert den Besten.";
+
+  var POCKETS = [
+    { x: 0, y: 0, r: 23, v: 18 }, { x: W, y: 0, r: 23, v: 18 },
+    { x: 0, y: H / 2, r: 20, v: 16 }, { x: W, y: H / 2, r: 20, v: 16 },
+    { x: 0, y: H, r: 23, v: 18 }, { x: W, y: H, r: 23, v: 18 }
+  ];
+
+  var canvas = document.getElementById("table");
+  var ctx = canvas.getContext("2d");
+  var statusEl = document.getElementById("status");
+  var countEl = document.getElementById("count");
+  var dogEl = document.getElementById("dog");
+  var dogBtn = document.getElementById("dogBtn");
+  var treatsEl = document.getElementById("treats");
+  var popEl = document.getElementById("pop");
+  var bonusBtn = document.getElementById("bonus");
+
+  var balls = [], cue = null, shots = 0, won = false, lastK = -1;
+  var bonus = false, unlocked = false, treats = 0;
+  var moving = false, running = false, shotMsgs = [], missIndex = 0;
+  var aim = { on: false, kb: false, angle: -Math.PI / 2, power: 0 };
+  var dragStart = null;
+  var C = {};
+
+  function readColors() {
+    var cs = getComputedStyle(document.documentElement);
+    ["felt", "felt-deep", "rail", "pocket", "chalk", "chalk-blue", "wood", "ball", "shade"].forEach(function (k) {
+      C[k] = cs.getPropertyValue("--" + k).trim();
+    });
+  }
+
+  function wag(long) {
+    dogEl.classList.remove("wag", "wag-long");
+    void dogEl.getBoundingClientRect();
+    dogEl.classList.add(long ? "wag-long" : "wag");
+  }
+
+  function showTreats() {
+    if (treats === 0) { treatsEl.textContent = "Er mag Leckerlis. Tipp ihn an."; return; }
+    var extra = treats >= 10 ? " Das reicht, sagt der Tierarzt." : (treats >= 5 ? " Er mag dich jetzt." : "");
+    treatsEl.textContent = "Leckerlis: " + treats + "." + extra;
+  }
+
+  function snacksLeft() {
+    return balls.filter(function (b) { return !KINDS[b.k].animal; }).length;
+  }
+
+  function freeSpot(self) {
+    var spots = [
+      [W / 2, H / 2], [W / 2, H * 0.42], [W * 0.3, H * 0.5], [W * 0.7, H * 0.5], [W / 2, H * 0.6],
+      [W * 0.3, H * 0.3], [W * 0.7, H * 0.3], [W * 0.3, H * 0.7], [W * 0.7, H * 0.7]
+    ];
+    for (var i = 0; i < spots.length; i++) {
+      var sx = spots[i][0], sy = spots[i][1];
+      var blocked = balls.some(function (b) {
+        return b !== self && Math.hypot(b.x - sx, b.y - sy) < 2 * R + 2;
+      }) || (!cue.out && Math.hypot(cue.x - sx, cue.y - sy) < 2 * R + 2);
+      if (!blocked) return { x: sx, y: sy };
+    }
+    return { x: spots[0][0], y: spots[0][1] };
+  }
+
+  function winMessage() {
+    var n = shots === 1 ? "einem Stoß" : shots + " Stößen";
+    if (bonus) {
+      return "Bonusrunde geschafft in " + n + ". Bella und der Ridgeback stehen immer noch da. Gegen die gewinnt keiner.";
+    }
+    var head = "Tisch leer in " + n + ". ";
+    if (lastK === AVOCADO) {
+      return head + "Die Avocado als Letztes zählt nicht. Dann gibt's Schoko-Erdbeeren.";
+    }
+    var k = KINDS[lastK] || KINDS[0];
+    return head + "Als Letztes versenkt: " + k.date + ". Das gibt's dann beim ersten Date.";
+  }
+
+  function rack(withAnimals) {
+    bonus = !!withAnimals;
+    balls = [];
+    var d = 2 * R + 0.6, ax = W / 2, ay = H * 0.30, k = 0;
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j <= i; j++) {
+        balls.push({ x: ax + (j - i / 2) * d, y: ay - i * d * 0.866, vx: 0, vy: 0, k: k++ });
+      }
+    }
+    if (bonus) {
+      balls.push({ x: W * 0.3, y: H * 0.55, vx: 0, vy: 0, k: 6 });
+      balls.push({ x: W * 0.7, y: H * 0.55, vx: 0, vy: 0, k: 7 });
+    }
+    cue = { x: W / 2, y: H * 0.76, vx: 0, vy: 0, out: false };
+    shots = 0; won = false; moving = false; shotMsgs = []; lastK = -1;
+    aim.on = false; aim.power = 0; aim.angle = -Math.PI / 2;
+  }
+
+  function inPocket(b) {
+    for (var i = 0; i < POCKETS.length; i++) {
+      var p = POCKETS[i];
+      if (Math.hypot(b.x - p.x, b.y - p.y) < p.r) return true;
+    }
+    return false;
+  }
+
+  function step() {
+    var all = cue.out ? balls.slice() : [cue].concat(balls);
+    var i, j, b;
+    for (i = 0; i < all.length; i++) {
+      b = all[i];
+      b.x += b.vx; b.y += b.vy;
+      /* cloth drag plus rolling resistance, so balls come to rest within about two seconds */
+      var sp = Math.hypot(b.vx, b.vy);
+      if (sp > 0) {
+        var ns = sp * FRICTION - 0.014;
+        if (ns <= 0) { b.vx = 0; b.vy = 0; }
+        else { b.vx *= ns / sp; b.vy *= ns / sp; }
+      }
+    }
+    for (i = 0; i < all.length; i++) {
+      for (j = i + 1; j < all.length; j++) {
+        var a = all[i], c = all[j];
+        var dx = c.x - a.x, dy = c.y - a.y, dist = Math.hypot(dx, dy);
+        if (dist > 0 && dist < 2 * R) {
+          var nx = dx / dist, ny = dy / dist, overlap = (2 * R - dist) / 2;
+          a.x -= nx * overlap; a.y -= ny * overlap;
+          c.x += nx * overlap; c.y += ny * overlap;
+          var p = (a.vx - c.vx) * nx + (a.vy - c.vy) * ny;
+          if (p > 0) {
+            p *= 0.97;
+            a.vx -= p * nx; a.vy -= p * ny;
+            c.vx += p * nx; c.vy += p * ny;
+          }
+        }
+      }
+    }
+    if (!cue.out && inPocket(cue)) {
+      cue.out = true; cue.vx = 0; cue.vy = 0;
+      shotMsgs.push(SCRATCH_MSG);
+    }
+    var potted = false;
+    balls = balls.filter(function (ball) {
+      if (!inPocket(ball)) return true;
+      var kind = KINDS[ball.k];
+      shotMsgs.push(kind.msg);
+      potted = true;
+      if (kind.animal) {
+        var spot = freeSpot(ball);
+        ball.x = spot.x; ball.y = spot.y; ball.vx = 0; ball.vy = 0;
+        return true;
+      }
+      lastK = ball.k;
+      return false;
+    });
+    if (potted) wag(false);
+    var any = false;
+    var rest = cue.out ? balls : [cue].concat(balls);
+    for (i = 0; i < rest.length; i++) {
+      b = rest[i];
+      if (b.x < R) { b.x = R; b.vx = Math.abs(b.vx) * 0.9; }
+      if (b.x > W - R) { b.x = W - R; b.vx = -Math.abs(b.vx) * 0.9; }
+      if (b.y < R) { b.y = R; b.vy = Math.abs(b.vy) * 0.9; }
+      if (b.y > H - R) { b.y = H - R; b.vy = -Math.abs(b.vy) * 0.9; }
+      if (Math.hypot(b.vx, b.vy) < 0.03) { b.vx = 0; b.vy = 0; } else { any = true; }
+    }
+    return any;
+  }
+
+  function respawnCue() {
+    cue.out = false; cue.vx = 0; cue.vy = 0;
+    cue.x = W / 2; cue.y = H * 0.76;
+    var tries = 0;
+    while (tries < 40 && balls.some(function (b) { return Math.hypot(b.x - cue.x, b.y - cue.y) < 2 * R + 1; })) {
+      cue.y -= 6; tries++;
+      if (cue.y < R + 2) { cue.y = H - R - 2; cue.x = R + 2 + (tries * 13) % (W - 2 * R - 4); }
+    }
+  }
+
+  function updateCount() {
+    countEl.textContent = "Stöße: " + shots + " · Kugeln: " + snacksLeft();
+  }
+
+  function settle() {
+    if (cue.out) respawnCue();
+    if (snacksLeft() === 0) {
+      won = true;
+      statusEl.textContent = winMessage();
+      unlocked = true;
+      bonusBtn.hidden = false;
+      wag(true);
+    } else if (shotMsgs.length) {
+      statusEl.textContent = shotMsgs.filter(function (m, i, a) { return a.indexOf(m) === i; }).join(" ");
+    } else {
+      statusEl.textContent = MISSES[missIndex % MISSES.length];
+      missIndex++;
+    }
+    shotMsgs = [];
+    if (aim.kb && document.activeElement === canvas && !won) aim.on = true;
+    updateCount();
+  }
+
+  function frame() {
+    var m = false;
+    for (var s = 0; s < 2; s++) { m = step(); if (!m) break; }
+    if (m) {
+      draw();
+      requestAnimationFrame(frame);
+    } else {
+      running = false; moving = false;
+      settle();
+      draw();
+    }
+  }
+
+  function shoot() {
+    cue.vx = Math.cos(aim.angle) * aim.power;
+    cue.vy = Math.sin(aim.angle) * aim.power;
+    shots++; moving = true; shotMsgs = [];
+    aim.on = false;
+    updateCount();
+    if (!running) { running = true; requestAnimationFrame(frame); }
+  }
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function dot(x, y, r) {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+
+  function drawBall(b, emoji) {
+    ctx.fillStyle = C.shade;
+    dot(b.x + 1.5, b.y + 2.5, R);
+    ctx.fillStyle = C.ball;
+    dot(b.x, b.y, R);
+    if (emoji) {
+      ctx.font = (R * 1.3) + 'px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = C.pocket;
+      ctx.fillText(emoji, b.x, b.y + 1);
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, CW, CH);
+    ctx.fillStyle = C.rail;
+    roundRect(0, 0, CW, CH, 18); ctx.fill();
+
+    ctx.save();
+    ctx.translate(RAIL, RAIL);
+
+    ctx.fillStyle = C.felt;
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = C["felt-deep"];
+    ctx.lineWidth = 6;
+    ctx.strokeRect(3, 3, W - 6, H - 6);
+
+    /* head string and foot spot, as on a real table */
+    ctx.globalAlpha = 0.28;
+    ctx.strokeStyle = C.chalk;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(8, H * 0.76); ctx.lineTo(W - 8, H * 0.76); ctx.stroke();
+    ctx.fillStyle = C.chalk;
+    dot(W / 2, H * 0.30, 2.2);
+    ctx.globalAlpha = 1;
+
+    /* diamonds on the rails */
+    ctx.fillStyle = C.chalk;
+    var q;
+    for (q = 1; q <= 3; q++) {
+      dot(W * q / 4, -RAIL / 2, 2);
+      dot(W * q / 4, H + RAIL / 2, 2);
+      dot(-RAIL / 2, (H / 2) * q / 4, 2);
+      dot(W + RAIL / 2, (H / 2) * q / 4, 2);
+      dot(-RAIL / 2, H / 2 + (H / 2) * q / 4, 2);
+      dot(W + RAIL / 2, H / 2 + (H / 2) * q / 4, 2);
+    }
+
+    ctx.fillStyle = C.pocket;
+    POCKETS.forEach(function (p) { dot(p.x, p.y, p.v); });
+
+    balls.forEach(function (b) { drawBall(b, KINDS[b.k].e); });
+    if (!cue.out) drawBall(cue, null);
+
+    if (aim.on && !moving && !cue.out && aim.power > 0) {
+      var dx = Math.cos(aim.angle), dy = Math.sin(aim.angle);
+      ctx.strokeStyle = C.chalk;
+      ctx.globalAlpha = 0.85;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 6]);
+      ctx.beginPath();
+      ctx.moveTo(cue.x + dx * (R + 4), cue.y + dy * (R + 4));
+      ctx.lineTo(cue.x + dx * (R + 44 + aim.power * 26), cue.y + dy * (R + 44 + aim.power * 26));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+
+      var back = R + 5 + aim.power * 5;
+      ctx.lineCap = "round";
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = C.wood;
+      ctx.beginPath();
+      ctx.moveTo(cue.x - dx * (back + 6), cue.y - dy * (back + 6));
+      ctx.lineTo(cue.x - dx * (back + 120), cue.y - dy * (back + 120));
+      ctx.stroke();
+      ctx.strokeStyle = C["chalk-blue"];
+      ctx.beginPath();
+      ctx.moveTo(cue.x - dx * back, cue.y - dy * back);
+      ctx.lineTo(cue.x - dx * (back + 6), cue.y - dy * (back + 6));
+      ctx.stroke();
+      ctx.lineCap = "butt";
+    }
+    ctx.restore();
+  }
+
+  function resize() {
+    var rect = canvas.getBoundingClientRect();
+    if (!rect.width) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.width * CH / CW * dpr);
+    var s = canvas.width / CW;
+    ctx.setTransform(s, 0, 0, s, 0, 0);
+    draw();
+  }
+
+  function pt(e) {
+    var r = canvas.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * CW / r.width - RAIL, y: (e.clientY - r.top) * CH / r.height - RAIL };
+  }
+
+  canvas.addEventListener("pointerdown", function (e) {
+    if (moving || won) return;
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    dragStart = pt(e);
+    aim.kb = false; aim.on = true; aim.power = 0;
+    e.preventDefault();
+    draw();
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!dragStart) return;
+    var p = pt(e), dx = dragStart.x - p.x, dy = dragStart.y - p.y, len = Math.hypot(dx, dy);
+    if (len > 3) { aim.angle = Math.atan2(dy, dx); aim.power = Math.min(len / 14, MAXV); }
+    else { aim.power = 0; }
+    draw();
+  });
+  canvas.addEventListener("pointerup", function () {
+    if (!dragStart) return;
+    dragStart = null;
+    if (aim.power >= MIN_SHOT) { shoot(); } else { aim.on = false; draw(); }
+  });
+  canvas.addEventListener("pointercancel", function () {
+    dragStart = null; aim.on = false; draw();
+  });
+
+  canvas.addEventListener("keydown", function (e) {
+    var keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Enter"];
+    if (keys.indexOf(e.key) === -1) return;
+    e.preventDefault();
+    if (moving || won) return;
+    aim.kb = true; aim.on = true;
+    if (aim.power < MIN_SHOT) aim.power = 4;
+    if (e.key === "ArrowLeft") aim.angle -= 0.04;
+    else if (e.key === "ArrowRight") aim.angle += 0.04;
+    else if (e.key === "ArrowUp") aim.power = Math.min(MAXV, aim.power + 0.5);
+    else if (e.key === "ArrowDown") aim.power = Math.max(MIN_SHOT, aim.power - 0.5);
+    else { shoot(); return; }
+    draw();
+  });
+  canvas.addEventListener("blur", function () {
+    if (aim.kb) { aim.kb = false; aim.on = false; draw(); }
+  });
+
+  document.getElementById("reset").addEventListener("click", function () {
+    rack(false);
+    statusEl.textContent = START_MSG;
+    updateCount();
+    draw();
+  });
+  bonusBtn.addEventListener("click", function () {
+    rack(true);
+    statusEl.textContent = BONUS_START;
+    updateCount();
+    draw();
+  });
+  dogBtn.addEventListener("click", function () {
+    treats++;
+    showTreats();
+    wag(false);
+    popEl.classList.remove("go");
+    void popEl.getBoundingClientRect();
+    popEl.classList.add("go");
+  });
+
+  function retheme() { readColors(); draw(); }
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", retheme);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+  if (window.ResizeObserver) { new ResizeObserver(resize).observe(canvas); }
+  else { window.addEventListener("resize", resize); }
+
+  function start(data) {
+    rack(false);
+    var restored = false;
+    if (data && typeof data.treats === "number") treats = data.treats | 0;
+    if (data && data.unlocked) unlocked = true;
+    if (data && Array.isArray(data.balls) && data.cue && typeof data.cue.x === "number") {
+      bonus = !!data.bonus;
+      balls = data.balls.filter(function (b) {
+        return b && typeof b.x === "number" && typeof b.y === "number" && KINDS[b.k];
+      }).map(function (b) { return { x: b.x, y: b.y, vx: 0, vy: 0, k: b.k }; });
+      cue.x = data.cue.x; cue.y = data.cue.y;
+      shots = data.shots | 0;
+      won = !!data.won;
+      lastK = typeof data.lastK === "number" ? data.lastK : -1;
+      restored = true;
+    }
+    readColors();
+    bonusBtn.hidden = !unlocked;
+    showTreats();
+    statusEl.textContent = restored && shots > 0
+      ? (won ? winMessage() : "Weiter geht's.")
+      : (bonus ? BONUS_START : START_MSG);
+    updateCount();
+    resize();
+  }
+
+  start({});
+})();
+</script>
+</body>
+</html>
